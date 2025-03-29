@@ -1,5 +1,6 @@
 import 'dart:convert';
-
+import 'dart:io';
+import 'package:vaden/vaden.dart';
 import 'package:vaden/vaden.dart';
 import 'package:vaden/vaden_openapi.dart';
 
@@ -7,6 +8,8 @@ import 'package:vaden/vaden_openapi.dart';
 class OpenApiConfiguration {
   @Bean()
   OpenApi openApi(OpenApiConfig config) {
+    final server = config.localServer;
+
     return OpenApi(
       version: '3.0.0',
       info: Info(
@@ -15,7 +18,7 @@ class OpenApiConfiguration {
         description: 'Vaden Backend example',
       ),
       servers: [
-        config.localServer,
+        server,
       ],
       tags: config.tags,
       paths: config.paths,

@@ -4,5 +4,6 @@ void main() async {
   final vaden = VadenApplication();
   await vaden.setup();
   final server = await vaden.run();
-  print('Server listening on ports ${server.port}');
+  print(
+      'Server listening on ports ${server.port} host ${server.address.address} ${server.address.rawAddress}');
 }
