@@ -1,8 +1,7 @@
 import 'dart:convert';
-import 'dart:io';
-import 'package:vaden/vaden.dart';
 import 'package:vaden/vaden.dart';
 import 'package:vaden/vaden_openapi.dart';
+import 'package:openapi_spec/src/open_api/index.dart' as openapi;
 
 @Configuration()
 class OpenApiConfiguration {
@@ -18,6 +17,7 @@ class OpenApiConfiguration {
         description: 'Vaden Backend example',
       ),
       servers: [
+        openapi.Server(url: 'https://portfolio.shreeman.dev'),
         server,
       ],
       tags: config.tags,
