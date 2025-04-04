@@ -12,13 +12,16 @@ class AppConfiguration {
   @Bean()
   Pipeline globalMiddleware(ApplicationSettings settings) {
     return Pipeline()
-        //.addVadenMiddleware(ResponseTiMeMiddleware())
-        .addMiddleware(cors(allowedOrigins: ['*']))
+        .addMiddleware(cors(
+          allowedOrigins: ['*', '0.0.0.0', 'http://localhost:8080'],
+        ))
         .addVadenMiddleware(EnforceJsonContentType())
+        .addVadenMiddleware(ResponseTiMeMiddleware())
         .addMiddleware(logRequests());
   }
 }
 
+@Component()
 class ResponseTiMeMiddleware extends VadenMiddleware {
   @override
   FutureOr<Response> handler(Request request, Handler handler) async {
@@ -32,9 +35,10 @@ class ResponseTiMeMiddleware extends VadenMiddleware {
     final timeToProcess = endTime.difference(startTime);
     print("time taken ${timeToProcess.inMilliseconds}");
 
-    return response.change(headers: {
+    final chnagedResponse = response.change(headers: {
       ...response.headers,
-      'X-Response-Time': timeToProcess.inMilliseconds.toString()
+      'X-Response-Time': timeToProcess.inMilliseconds.toString() + " ms"
     });
+    return chnagedResponse;
   }
 }
