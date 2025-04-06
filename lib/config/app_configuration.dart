@@ -12,33 +12,44 @@ class AppConfiguration {
   @Bean()
   Pipeline globalMiddleware(ApplicationSettings settings) {
     return Pipeline()
+        .addVadenMiddleware(StoreRequestTimeMiddleware())
         .addMiddleware(cors(
           allowedOrigins: ['*', '0.0.0.0', 'http://localhost:8080'],
         ))
         .addVadenMiddleware(EnforceJsonContentType())
-        .addVadenMiddleware(ResponseTiMeMiddleware())
-        .addMiddleware(logRequests());
+        .addMiddleware(logRequests())
+        .addVadenMiddleware(CalculateTotalTimeMiddleware());
   }
 }
 
 @Component()
-class ResponseTiMeMiddleware extends VadenMiddleware {
+class StoreRequestTimeMiddleware extends VadenMiddleware {
   @override
   FutureOr<Response> handler(Request request, Handler handler) async {
-    /// add timer to calculate time to process
-    /// and add it to the response
-
-    final startTime = DateTime.now();
-
-    final response = await handler(request);
-    final endTime = DateTime.now();
-    final timeToProcess = endTime.difference(startTime);
-    print("time taken ${timeToProcess.inMilliseconds}");
-
-    final chnagedResponse = response.change(headers: {
-      ...response.headers,
-      'X-Response-Time': timeToProcess.inMilliseconds.toString() + " ms"
+    final currentTime = DateTime.now();
+    final requestWithTime = request.change(headers: {
+      ...request.headers,
+      'X-Request-Time': currentTime.toIso8601String(),
     });
-    return chnagedResponse;
+    return handler(requestWithTime);
+  }
+}
+
+@Component()
+class CalculateTotalTimeMiddleware extends VadenMiddleware {
+  @override
+  FutureOr<Response> handler(Request request, Handler handler) async {
+    final requestTime = DateTime.parse(request.headers['X-Request-Time'] ?? '');
+    final response = await handler(request);
+    final responseTime = DateTime.now();
+    final totalTime = responseTime.difference(requestTime);
+    print("Total time taken: ${totalTime.inMilliseconds} ms");
+    final responseWithTime = response.change(headers: {
+      ...response.headers,
+      'X-Server-Requested-Time': "${requestTime} ",
+      'X-Server-Responded-Time': "${responseTime} ",
+      'X-Server-Response-Time': '${totalTime.inMilliseconds} ms',
+    });
+    return responseWithTime;
   }
 }
