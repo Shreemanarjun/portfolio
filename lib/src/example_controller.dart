@@ -1,9 +1,10 @@
 import 'package:vaden/vaden.dart';
 
-@Controller("/")
+@Api(tag: 'Example', description: 'ExampleController')
+@Controller("/example")
 class ExampleController {
-  @Get("/")
-  Future<Response> index(@Query('name') String? name) async {
+  @Get("/hello")
+  Future<Response> helo(@Query('name') String? name) async {
     if (name == null) {
       return Response.ok("Hello, World!");
     }

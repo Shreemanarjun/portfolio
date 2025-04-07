@@ -1,5 +1,6 @@
 import 'package:vaden/vaden.dart';
 
+@Api(tag: 'Fibo', description: 'FiboSeriesController')
 @Controller("/fibo")
 class FiboSeriesController {
   @Get("/fibonacci")

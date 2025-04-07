@@ -33,7 +33,7 @@ class OpenApiConfiguration {
     return SwaggerUI(
       jsonEncode(openApi.toJson()),
       title: 'portfolio API',
-      docExpansion: DocExpansion.full,
+      docExpansion: DocExpansion.list,
       deepLink: true,
       persistAuthorization: true,
       syntaxHighlightTheme: SyntaxHighlightTheme.agate,

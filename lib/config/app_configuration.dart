@@ -26,6 +26,15 @@ class AppConfiguration {
 class StoreRequestTimeMiddleware extends VadenMiddleware {
   @override
   FutureOr<Response> handler(Request request, Handler handler) async {
+    print(
+        "requested url path:'${request.handlerPath}' url:'${request.url.path}' isEmpty:'${request.isEmpty}'");
+    if (request.handlerPath == "/" &&
+        request.url.path == "" &&
+        request.method == "GET") {
+      return Response.movedPermanently(
+        "/docs/",
+      );
+    }
     final currentTime = DateTime.now();
     final requestWithTime = request.change(headers: {
       ...request.headers,
