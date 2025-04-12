@@ -11,13 +11,13 @@ class OpenApiConfiguration {
 
     return OpenApi(
       version: '3.0.0',
-      info: Info(
+      info: const Info(
         title: 'Vaden API',
         version: '1.0.0',
         description: 'Vaden Backend example',
       ),
       servers: [
-        openapi.Server(url: 'https://portfolio.shreeman.dev'),
+        const openapi.Server(url: 'https://portfolio.shreeman.dev'),
         server,
       ],
       tags: config.tags,

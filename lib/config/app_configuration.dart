@@ -11,7 +11,7 @@ class AppConfiguration {
 
   @Bean()
   Pipeline globalMiddleware(ApplicationSettings settings) {
-    return Pipeline()
+    return const Pipeline()
         .addVadenMiddleware(StoreRequestTimeMiddleware())
         .addMiddleware(cors(
           allowedOrigins: ['*', '0.0.0.0', 'http://localhost:8080'],
@@ -46,8 +46,8 @@ class CalculateTotalTimeMiddleware extends VadenMiddleware {
     print("Total time taken: ${totalTime.inMilliseconds} ms");
     final responseWithTime = response.change(headers: {
       ...response.headers,
-      'X-Server-Requested-Time': "${requestTime} ",
-      'X-Server-Responded-Time': "${responseTime} ",
+      'X-Server-Requested-Time': "$requestTime ",
+      'X-Server-Responded-Time': "$responseTime ",
       'X-Server-Response-Time': '${totalTime.inMilliseconds} ms',
     });
     return responseWithTime;

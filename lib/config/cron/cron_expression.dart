@@ -16,7 +16,7 @@ class CronExpression {
   factory CronExpression(String expression) {
     final parts = expression.trim().split(RegExp(r'\s+'));
     if (parts.length != 5) {
-      throw FormatException('Cron format not valid');
+      throw const FormatException('Cron format not valid');
     }
     final minutes = _parseField(parts[0], 0, 59);
     final hours = _parseField(parts[1], 0, 23);
@@ -98,7 +98,7 @@ class CronExpression {
 
     final value = int.tryParse(rangebyte);
     if (value == null) {
-      throw FormatException('Cron format not valid');
+      throw const FormatException('Cron format not valid');
     }
     if (value < min || value > max) {
       throw FormatException('Value $value must be between $min and $max');
@@ -113,7 +113,7 @@ class CronExpression {
       from.day,
       from.hour,
       from.minute,
-    ).add(Duration(minutes: 1));
+    ).add(const Duration(minutes: 1));
 
     return next //
         .map((dt) => months.contains(dt.month) ? dt : _nextMonth(dt))
@@ -171,7 +171,7 @@ class CronExpression {
       if (daysOfWeek.contains(next.weekday % 7)) {
         return next;
       }
-      next = _daysRemainingInMonth(next.add(Duration(days: 1)));
+      next = _daysRemainingInMonth(next.add(const Duration(days: 1)));
     }
   }
 
@@ -182,7 +182,7 @@ class CronExpression {
 
     int nextHour = hours.firstWhere((h) => h > next.hour, orElse: () => -1);
     if (nextHour == -1 || next.hour >= hours.last) {
-      next = next.add(Duration(days: 1));
+      next = next.add(const Duration(days: 1));
       next = next.copyWith(hour: hours.first, minute: minutes.first);
       return _nextDays(next);
     }
@@ -200,7 +200,7 @@ class CronExpression {
       orElse: () => -1,
     );
     if (nextMinute == -1 || next.minute >= minutes.last) {
-      next = next.add(Duration(hours: 1));
+      next = next.add(const Duration(hours: 1));
       next = next.copyWith(minute: minutes.first);
       return _nextHours(next);
     }

@@ -13,45 +13,47 @@ class ChatController extends WebSocketResource {
 
   @override
   void connect(socket) {
-    socket.emit('SERVIDOR: Novo cliente conectado!');
+    socket.emit('SERVER: New client connected!');
   }
 
   @override
   void onMessage(covariant String data, socket) {
-    socket.emit({
-      "data_type": "user_result",
-      "data": {
-        {
-          'MENSAGEM': data,
-          'NOME': 'Servidor',
-          'DATA': DateTime.now().toString(),
-        }
-      }
-    });
     if (data.startsWith('@enterroom ')) {
       final room = data.replaceFirst('@enterroom ', '');
       socket.joinRoom(room);
-      socket.sink.add('Você entrou na sala $room');
-      socket.emit('ROOM: Novo cliente conectado', [room]);
+      socket.sink.add('You entered room $room');
+      socket.emit('ROOM: New client connected', [room]);
+    } else if (data.startsWith("@getRooms")) {
+      print("Data:$data rooms:${socket.enteredRooms}");
+      socket.emit({
+        "data_type": "user_result",
+        "data": {
+          {
+            'MESSAGE': data,
+            'NAME': 'Server',
+            'DATE': DateTime.now().toString(),
+          }
+        }
+      });
     } else if (data.startsWith('@leaveroom ')) {
       final room = data.replaceFirst('@leaveroom ', '');
-      socket.sink.add('Você saiu na sala $room');
+      socket.sink.add('You left room $room');
       socket.leaveRoom(room);
-      socket.emit('ROOM: Cliente saiu da sala', [room]);
+      socket.emit('ROOM: Client left the room', [room]);
     } else if (data.startsWith('@changename ')) {
       final name = data.replaceFirst('@changename ', '');
-      socket.emitToRooms('${socket.tag} trocou o nome para $name');
-      socket.sink.add('Agora seu nome é $name');
+      socket.emitToRooms('${socket.tag} changed their name to $name');
+      socket.sink.add('Your new name is $name');
       socket.tag = name;
     } else if (socket.enteredRooms.isNotEmpty) {
       socket.emitToRooms('${socket.tag}: $data');
     } else {
-      socket.sink.add('Entre em uma sala pra tc');
+      socket.sink.add('Please enter a room to chat');
     }
   }
 
   @override
   void disconnect(socket) {
-    socket.emit('SERVIDOR: Cliente desconectado');
+    socket.emit('SERVER: Client disconnected');
   }
 }
