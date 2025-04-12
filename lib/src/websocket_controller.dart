@@ -18,6 +18,16 @@ class ChatController extends WebSocketResource {
 
   @override
   void onMessage(covariant String data, socket) {
+    socket.emit({
+      "data_type": "user_result",
+      "data": {
+        {
+          'MENSAGEM': data,
+          'NOME': 'Servidor',
+          'DATA': DateTime.now().toString(),
+        }
+      }
+    });
     if (data.startsWith('@enterroom ')) {
       final room = data.replaceFirst('@enterroom ', '');
       socket.joinRoom(room);
