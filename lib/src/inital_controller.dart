@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:vaden/vaden.dart';
 
 @Api(
@@ -6,10 +8,21 @@ import 'package:vaden/vaden.dart';
 )
 @Controller("/")
 class InitalController {
+  final ResourceService resource;
+  final Storage storage;
+
+  InitalController({required this.resource, required this.storage});
   @Get()
-  Future<Response> getRoot() async {
+  Future<Response> getRoot(
+    Request request,
+  ) async {
+    final currentPath = Directory.current.path;
+    final index = await File("$currentPath/public/index.html").readAsString();
     return Response.ok(
-      "Welcome to Portfolio",
+      index,
+      headers: {
+        "Content-Type": "text/html",
+      },
     );
   }
 }
