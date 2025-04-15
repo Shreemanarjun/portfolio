@@ -12,6 +12,11 @@ class PingResponse {
 @Controller('/hello')
 class HelloController {
   @Get('/ping')
+  @ApiResponse(
+    200,
+    description: 'Successful pinged',
+    content: ApiContent(type: 'application/json', schema: PingResponse),
+  )
   PingResponse ping() {
     return PingResponse(
       message: 'Hello, World!',

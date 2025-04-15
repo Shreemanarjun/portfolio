@@ -14,7 +14,11 @@ class AppConfiguration {
     return const Pipeline()
         .addVadenMiddleware(StoreRequestTimeMiddleware())
         .addMiddleware(cors(
-          allowedOrigins: ['*', '0.0.0.0', 'http://localhost:8080'],
+          allowedOrigins: [
+            'shreeman.dev',
+            '0.0.0.0',
+            'http://localhost:8080',
+          ],
         ))
         .addVadenMiddleware(EnforceJsonContentType())
         .addMiddleware(logRequests())

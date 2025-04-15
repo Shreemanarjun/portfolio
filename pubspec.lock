@@ -645,18 +645,18 @@ packages:
     dependency: "direct main"
     description:
       name: vaden
-      sha256: "3f0f2f9ba3991334f72705c8aa0b5c0e5ab1f41a46a828695f1b8cadf924bc97"
+      sha256: e6628f2ca51cc939fef8a684da42f0a5b80976f7cb7bd7190f34b1dcef6ea76d
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.9"
+    version: "0.0.10"
   vaden_class_scanner:
     dependency: "direct dev"
     description:
       name: vaden_class_scanner
-      sha256: d4d383db768de6aec78e705f1b52224efc610a79cdb5cc6194b75c1cb5a87b7a
+      sha256: "74bd342f2dfd4621e9c1c2f6a7c0f6fbf53bdb3b60354a6fa3cf7da0805120f9"
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.9"
+    version: "0.0.11"
   vaden_security:
     dependency: transitive
     description:
