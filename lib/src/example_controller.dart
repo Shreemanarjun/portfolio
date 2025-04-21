@@ -26,4 +26,22 @@ class ExampleController {
       // convert each number to a Stream<List<int>>
     );
   }
+
+  @Get("/sse")
+  Future<Response> sseExample() async {
+    final stream = Stream.periodic(
+            const Duration(milliseconds: 100), (i) => i + 1)
+        .take(100) // take only the first 100 numbers
+        .map(
+            (number) => 'data: $number\n'); // convert each number to an SSE event
+
+    return Response.ok(
+      stream.map((number) => '$number\n'.codeUnits),
+      context: {"shelf.io.buffer_output": false},
+      headers: {
+        'Content-Type': 'text/event-stream',
+        'Cache-Control': 'no-cache',
+      },
+    );
+  }
 }

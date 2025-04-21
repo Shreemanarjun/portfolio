@@ -15,9 +15,10 @@ class AppConfiguration {
         .addVadenMiddleware(StoreRequestTimeMiddleware())
         .addMiddleware(cors(
           allowedOrigins: [
-            'shreeman.dev',
-            '0.0.0.0',
+            '*',
+            '0.0.0.0:8080',
             'http://localhost:8080',
+            'shreeman.dev',
           ],
         ))
         .addVadenMiddleware(EnforceJsonContentType())

@@ -4,7 +4,10 @@ import 'package:vaden/vaden.dart';
 @Controller("/fibo")
 class FiboSeriesController {
   @Get("/fibonacci")
-  Future<String> getFibonacciSeries(@Query("n") int n) async {
+  Future<String> getFibonacciSeries(@Query("n") int? n) async {
+    if (n == null) {
+      return "Please provide a number";
+    }
     List<int> fiboSeries = [0, 1];
     while (fiboSeries.last < n) {
       fiboSeries.add(

@@ -35,4 +35,4 @@ storage:
     apiKey: 'my_api'
 
 env:
-  mode: debug
+  mode: release
