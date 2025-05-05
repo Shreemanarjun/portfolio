@@ -3,8 +3,8 @@ import 'package:vaden/vaden.dart';
 @Api(tag: 'Fibo', description: 'FiboSeriesController')
 @Controller("/fibo")
 class FiboSeriesController {
-  @Get("/fibonacci")
-  Future<String> getFibonacciSeries(@Query("n") int? n) async {
+  @Get('/fibonacci')
+  Future<String> getFibonacciSeries(@Query('n') int n) async {
     if (n == null) {
       return "Please provide a number";
     }

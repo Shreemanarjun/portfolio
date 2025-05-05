@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:vaden/vaden.dart';
 
+const bool kReleaseMode = bool.fromEnvironment("dart.vm.product");
+
 @Configuration()
 class AppConfiguration {
   @Bean()
@@ -19,6 +21,7 @@ class AppConfiguration {
             '0.0.0.0:8080',
             'http://localhost:8080',
             'shreeman.dev',
+            'https://portfolio-vaden.globeapp.dev'
           ],
         ))
         .addVadenMiddleware(EnforceJsonContentType())

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:portfolio/config/app_configuration.dart';
 import 'package:vaden/vaden.dart';
 import 'package:vaden/vaden_openapi.dart';
 import 'package:openapi_spec/src/open_api/index.dart' as openapi;
@@ -17,8 +18,11 @@ class OpenApiConfiguration {
         description: 'Vaden Backend example',
       ),
       servers: [
-        const openapi.Server(url: 'https://portfolio.shreeman.dev'),
+        if (kReleaseMode)
+          const openapi.Server(url: 'https://portfolio.shreeman.dev'),
         server,
+        if (!kReleaseMode)
+          const openapi.Server(url: 'https://portfolio.shreeman.dev'),
       ],
       tags: config.tags,
       paths: config.paths,

@@ -18,6 +18,7 @@ class AppControllerAdvice {
       body: jsonEncode({
         'message': 'Internal server error',
         'error': e.toString(),
+        'stackTrace': StackTrace.current,
       }),
     );
   }

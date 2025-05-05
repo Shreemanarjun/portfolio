@@ -28,6 +28,13 @@ class ExampleController {
   }
 
   @Get("/sse")
+  @ApiResponse(
+    200,
+    description: "success stream",
+    content: ApiContent(
+      type: 'text/event-stream',
+    ),
+  )
   Future<Response> sseExample() async {
     final stream =
         Stream.periodic(const Duration(milliseconds: 100), (i) => i + 1)
